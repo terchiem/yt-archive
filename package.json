@@ -1,0 +1,26 @@
+{
+  "name": "yt-classic",
+  "version": "1.0.0",
+  "description": "to do...",
+  "main": "index.js",
+  "dependencies": {
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "gulp browser-sync",
+    "watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terchiem/yt-classic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/terchiem/yt-classic/issues"
+  },
+  "homepage": "https://github.com/terchiem/yt-classic#readme"
+}
