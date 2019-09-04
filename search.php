@@ -1,6 +1,7 @@
 <?php
   include 'config/db_connect.php';
   include 'helpers/db_helpers.php';
+  include 'helpers/view_helpers.php';
 
   $q = $_GET["q"];
   $sql = createSearchQuery($conn, $q);
@@ -24,18 +25,20 @@
   </head>
 
   <body>
-    <h3>Search results for '<?= htmlspecialchars($q) ?>'</h3>
+    <h2 class="center logo">Youtube Classic Video</h1>
+
+    <form action="search.php" method="get" class="center">
+      Search: <input type="text" name="q" />
+      <input type="submit" value="Submit" />
+    </form>
 
     <div class="container">
-
-      <?php foreach($videos as $video): ?>
-        <div class="video">
-          <h2><?= htmlspecialchars($video['title']) ?></h2>
-          <h6><?= $video['publishedAt'] ?></h6>
-          <p><?= htmlspecialchars($video['description']) ?></p>
-        </div>
-      <?php endforeach ?>
-      
+      <h3>Search results for '<?= htmlspecialchars($q) ?>'</h3>
+      <div class="video-list">
+        <?php foreach($videos as $video) {
+          include 'templates/video-item.php';
+        } ?>
+      </div>
     </div>
 
     <br>
