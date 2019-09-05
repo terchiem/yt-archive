@@ -1,6 +1,17 @@
 <?php
-  function createSearchQuery($conn, $q) {
-    return "SELECT * FROM videos WHERE title LIKE '%$q%'";
+  function createSearchQuery($q) {
+    return "SELECT `videos`.*, `channels`.*
+      FROM `videos` 
+      LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
+      WHERE title LIKE '%$q%'";
+  }
+
+  function recentQuery() {
+    return "SELECT `videos`.*, `channels`.*
+    FROM `videos` 
+    LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
+    ORDER BY `created_at` DESC
+    LIMIT 20";
   }
 
   function extractVideoInfo($video) {

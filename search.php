@@ -6,7 +6,7 @@
   include 'helpers/view_helpers.php';
 
   $q = mysqli_real_escape_string($conn, $_GET["q"]);
-  $sql = createSearchQuery($conn, $q);
+  $sql = createSearchQuery($q);
   $result = mysqli_query($conn, $sql);
 
   if ($result->num_rows < 20) {

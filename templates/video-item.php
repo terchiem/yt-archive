@@ -18,7 +18,10 @@
     <a href="details.php?id=<?= $video['videoId'] ?>">
       <h2><?= htmlspecialchars($video['title']) ?></h2>
     </a>
-    <h6><a href="#">(Channel Title)</a> - <?= $video['publishedAt'] ?></h6>
+    <h6>
+      <a href="https://www.youtube.com/channel/<?= $video['channelId'] ?>">
+        <?= htmlspecialchars($video['channelTitle']) ?>
+      </a> • <?= $video['publishedAt'] ?></h6>
     <p><?= htmlspecialchars($video['description']) ?></p>
   </div>
 </div>
