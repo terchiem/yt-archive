@@ -45,7 +45,7 @@
       $insert = "INSERT INTO channels(channelId, channelTitle) "
         ."VALUES('$channelId', '$channelTitle')";
         mysqli_query($conn, $insert);
-      $check = mysqli_query($conn, "SELECT channel_id FROM `channels` WHERE `channelId` = '$channelId'");
+      return mysqli_insert_id($conn);
     }
     $channel = mysqli_fetch_assoc($check);
     return $channel['channel_id'];
