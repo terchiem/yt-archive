@@ -5,6 +5,7 @@
     // api parameters
     $maxResults = 50;
     $dateLimit = "2006-01-01T00%3A00%3A00Z";
+    $q = rawurlencode($q);
     $api = API_KEY;
 
     return "https://www.googleapis.com/youtube/v3/search?"
