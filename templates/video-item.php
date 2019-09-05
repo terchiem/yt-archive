@@ -16,7 +16,7 @@
 
   <div class="video-snippet">
     <a href="details.php?id=<?= $video['videoId'] ?>">
-      <h2><?= htmlspecialchars($video['title']) ?></h2>
+      <h2><?= $video['title'] ?></h2>
     </a>
     <h6>
       <a href="https://www.youtube.com/channel/<?= $video['channelId'] ?>">

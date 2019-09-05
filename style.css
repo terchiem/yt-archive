@@ -8,6 +8,8 @@
 
 body {
   margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #ddd;
 }
 
 h1, h2, h3,
@@ -31,10 +33,6 @@ a {
 }
 
 /* */
-body {
-  background-color: #ddd;
-}
-
 .container {
   margin: 20px auto;
   padding: 10px;
@@ -57,4 +55,10 @@ body {
 
 .video-item img {
   width: 100%;
+}
+
+.video-view {
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid red;
 }

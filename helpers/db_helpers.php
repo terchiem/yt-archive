@@ -3,15 +3,22 @@
     return "SELECT `videos`.*, `channels`.*
       FROM `videos` 
       LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
-      WHERE title LIKE '%$q%'";
+      WHERE title LIKE '%$q%' OR `description` LIKE '%$q%'";
   }
 
-  function recentQuery() {
+  function recentQuery($limit) {
     return "SELECT `videos`.*, `channels`.*
     FROM `videos` 
     LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
     ORDER BY `created_at` DESC
-    LIMIT 20";
+    LIMIT $limit";
+  }
+
+  function selectVideoQuery($videoId) {
+    return "SELECT `videos`.*, `channels`.*
+      FROM `videos` 
+      LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
+      WHERE `videoId` = '$videoId'";
   }
 
   function extractVideoInfo($video) {
@@ -60,5 +67,11 @@
     }
     $channel = mysqli_fetch_assoc($check);
     return $channel['channel_id'];
+  }
+
+  function getRecentVideos($conn, $limit) {
+    $sql = recentQuery($limit);
+    $result = mysqli_query($conn, $sql);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
   }
 ?>

@@ -34,11 +34,12 @@
 <html>
   <head>
     <title>Search Results</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="style.css">
   </head>
 
   <body>
-    <h2 class="center logo">Youtube Classic Video</h1>
+    <h2 class="center logo"><a href="/yt-classic">Youtube Classic Video</a></h1>
 
     <form action="search.php" method="get" class="center">
       Search: <input type="text" name="q" />
