@@ -10,8 +10,6 @@
   $result = mysqli_query($conn, $sql);
 
   if ($result->num_rows < 20) {
-    echo 'less than 20 results';  // debug
-
     // retrieve response JSON as array
     $searchResults = callSearchApi($q);
 
