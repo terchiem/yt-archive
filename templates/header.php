@@ -1,5 +1,5 @@
 <header>
-  <h2><a href="/yt-classic">YouTube Classic</a></h2>
+  <h2><a href="/">YouTube Classic</a></h2>
   <form action="search.php" method="get" class="searchbar">
     <input type="text" placeholder="Search" name="q">
     <input type="submit" value="Search"/>
