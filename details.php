@@ -34,35 +34,48 @@
   </head>
 
   <body>
+    <?php include 'templates/header.php' ?>
 
-    <h1 class="center logo"><a href="/yt-classic">Youtube Classic Video</a></h1>
-
-    <div class="video-view">
-      <iframe 
-        width="560" height="315" 
-        src="https://www.youtube.com/embed/<?= $video['videoId'] ?>" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
-      <h2><?= $video['title'] ?></h2>
-      <h4>
-        <a href="https://www.youtube.com/channel/<?= $video['channelId'] ?>">
-          <?= htmlspecialchars($video['channelTitle']) ?>
-        </a> • <?= $video['publishedAt'] ?>
-      </h4>
-      <p><?= $video['description'] ?></p>
-    </div>
-
-
-    <div class="container">
-      <h3>Recently searched videos</h3>
-      <div class="video-list">
-        <?php foreach($recentVideos as $video) {
-          include 'templates/video-item.php';
-        } ?>
+    <div class="details-wrapper">
+      <div class="details-main">
+        <div class="container video-player">
+          <iframe 
+            width="640" height="360"
+            src="https://www.youtube.com/embed/<?= $video['videoId'] ?>" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+    
+        <div class="container video-details">
+          <div class="video-details-header">
+            <h2><?= $video['title'] ?></h2>
+            <p>{ VIEW COUNT }</p>
+          </div>
+          <div class="video-details-info">
+            <div class="channel-info">
+              <a href="https://www.youtube.com/channel/<?= $video['channelId'] ?>">
+                <?= htmlspecialchars($video['channelTitle']) ?>
+              </a>
+              <p class="date">Published on <?= getStringDate($video['publishedAt']) ?></p>
+            </div>
+            <p class="description"><?= $video['description'] ?></p>
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="container">
+        <h3>Recently searched videos</h3>
+        <div class="video-list recent">
+          <?php foreach($recentVideos as $video) {
+            include 'templates/video-card-sm.php';
+          } ?>
+        </div>
       </div>
     </div>
     
+    <?php include 'templates/footer.php' ?>
   </body>
 </html>

@@ -9,19 +9,21 @@
 ?>
 
 
-<div class="video-item">
+<div class="video-card md">
   <a href="details.php?id=<?= $video['videoId'] ?>">
     <img src="<?= getThumbnail($video['videoId']) ?>" alt="<?= htmlspecialchars($video['title']) ?>">
   </a>
 
-  <div class="video-snippet">
+  <div class="video-card-snippet">
     <a href="details.php?id=<?= $video['videoId'] ?>">
-      <h2><?= $video['title'] ?></h2>
+      <h3><?= $video['title'] ?></h3>
     </a>
-    <h6>
+    <div class="video-card-info">
       <a href="https://www.youtube.com/channel/<?= $video['channelId'] ?>">
         <?= htmlspecialchars($video['channelTitle']) ?>
-      </a> • <?= $video['publishedAt'] ?></h6>
-    <p><?= htmlspecialchars($video['description']) ?></p>
+      </a> • { VIEW COUNT }
+      • Published <?= getStringDate($video['publishedAt']) ?>
+      <p class="video-card-description"><?= htmlspecialchars($video['description']) ?></p>
+    </div>
   </div>
 </div>

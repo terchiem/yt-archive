@@ -39,23 +39,17 @@
   </head>
 
   <body>
-    <h2 class="center logo"><a href="/yt-classic">Youtube Classic Video</a></h1>
+    <?php include 'templates/header.php'; ?>
 
-    <form action="search.php" method="get" class="center">
-      Search: <input type="text" name="q" />
-      <input type="submit" value="Submit" />
-    </form>
-
-    <div class="container">
+    <div class="container search-results">
       <h3>Search results for '<?= htmlspecialchars($q) ?>' (<?= count($videos) ?>)</h3>
       <div class="video-list">
         <?php foreach($videos as $video) {
-          include 'templates/video-item.php';
+          include 'templates/video-card.php';
         } ?>
       </div>
     </div>
 
-    <br>
-    <a href="index.php">Go back</a>
+    <?php include 'templates/footer.php' ?>
   </body>
 </html>
