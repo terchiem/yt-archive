@@ -1,5 +1,5 @@
 node_modules
 vendor
-config/secret.php
+**/secret.php
 test.php
 *.sql
