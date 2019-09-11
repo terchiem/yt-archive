@@ -12,7 +12,7 @@
     define('DB_SERVER', "localhost");
     define('DB_USER', "ytuser");
     define('DB_PASSWORD', "test1234");
-    define('DB_NAME', "yt_classic");
+    define('DB_NAME', "yt_classic2");
   }
 
   $conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
