@@ -51,7 +51,13 @@
         <div class="container video-details">
           <div class="video-details-header">
             <h2><?= $video['title'] ?></h2>
-            <p>{ VIEW COUNT }</p>
+            <p><?= number_format($video['viewCount'], 0, 0, ',') ?> views</p>
+            <div class="likes">
+              <ul>
+                <li>Likes: <?= $video['likeCount'] ?></li>
+                <li>Dislikes: <?= $video['dislikeCount'] ?></li>
+              </ul>
+            </div>
           </div>
           <div class="video-details-info">
             <div class="channel-info">

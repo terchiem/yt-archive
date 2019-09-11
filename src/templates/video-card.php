@@ -6,6 +6,12 @@
   //   'videoId'
   //   'channelId'
   //   'channelTitle'
+  //   'viewCount'
+  //   'likeCount'
+  //   'dislikeCount'
+  //   'duration'
+  //   'category_id'
+  //   'categoryName'
 ?>
 
 
@@ -21,8 +27,9 @@
     <div class="video-card-info">
       <a href="https://www.youtube.com/channel/<?= $video['channelId'] ?>">
         <?= htmlspecialchars($video['channelTitle']) ?>
-      </a> • { VIEW COUNT }
+      </a> • <?= roundViews($video['viewCount']); ?> views
       • Published <?= getStringDate($video['publishedAt']) ?>
+      • Duration <?= formatDuration($video['duration']); //temp?>
       <p class="video-card-description"><?= htmlspecialchars($video['description']) ?></p>
     </div>
   </div>

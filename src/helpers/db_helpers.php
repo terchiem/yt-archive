@@ -5,7 +5,7 @@
       LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
       JOIN video_tags ON videos.video_id = video_tags.video_id
       JOIN tags ON video_tags.tag_id = tags.tag_id
-      WHERE `videos`.`title` LIKE '%$q%' OR `tags`.`tagName` LIKE '%$q%'";
+      WHERE `videos`.`title` LIKE '%$q%' OR `tags`.`tagName` = '%$q%'";
   }
 
   function recentQuery($limit) {
@@ -17,9 +17,10 @@
   }
 
   function selectVideoQuery($videoId) {
-    return "SELECT `videos`.*, `channels`.*
+    return "SELECT `videos`.*, `channels`.*, `categories`.`categoryName`
       FROM `videos` 
       LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
+      LEFT JOIN `categories` ON `videos`.`category_id` = `categories`.`category_id`
       WHERE `videoId` = '$videoId'";
   }
 
