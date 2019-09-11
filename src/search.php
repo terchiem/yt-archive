@@ -11,7 +11,7 @@
 
   if ($result->num_rows < 20) {
     // retrieve response JSON as array
-    $searchResults = callSearchApi($q);
+    $searchResults = searchVideosAPI($q);
 
     // validate successful api call
     if(empty($searchResults['error'])) {

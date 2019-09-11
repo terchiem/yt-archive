@@ -1,10 +1,12 @@
 <?php
-  // function createSearchQuery($q) {
-  //   return "SELECT `videos`.*, `channels`.*
-  //     FROM `videos` 
-  //     LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
-  //     WHERE title LIKE '%$q%' OR `description` LIKE '%$q%'";
-  // }
+  function createSearchQuery($q) {
+    return "SELECT DISTINCT `videos`.*, `channels`.*
+      FROM `videos` 
+      LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
+      JOIN video_tags ON videos.video_id = video_tags.video_id
+      JOIN tags ON video_tags.tag_id = tags.tag_id
+      WHERE `videos`.`title` LIKE '%$q%' OR `tags`.`tagName` LIKE '%$q%'";
+  }
 
   function recentQuery($limit) {
     return "SELECT `videos`.*, `channels`.*
@@ -131,13 +133,4 @@
   //     LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
   //     WHERE title LIKE '%$q%' OR `description` LIKE '%$q%'";
   // }
-
-
-  // search by tag
-  // SELECT videos.* FROM videos
-  // JOIN video_tags
-  // ON videos.video_id = video_tags.video_id
-  // JOIN tags
-  // ON video_tags.tag_id = tags.tag_id
-  // WHERE tags.tagName = 'dog';
 ?>
