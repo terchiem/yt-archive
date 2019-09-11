@@ -92,8 +92,11 @@
   }
 
   function addVideoTags($conn, $video_id, $tags) {
-    foreach ($tags as $tag) {
-      addVideoTag($conn, $video_id, strtolower($tag));
+    // set max tag limit
+    $limit = count($tags) > 5 ? 5 : count($tags);
+
+    for ($i = 0; $i < $limit; $i++) {
+      addVideoTag($conn, $video_id, strtolower($tags[$i]));
     }
   }
 
