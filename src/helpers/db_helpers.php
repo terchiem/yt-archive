@@ -24,6 +24,14 @@
       WHERE `videoId` = '$videoId'";
   }
 
+  function selectCategoryQuery($category_id) {
+    return "SELECT `videos`.*, `channels`.*, `categories`.`categoryName`
+      FROM `videos` 
+      LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
+      LEFT JOIN `categories` ON `videos`.`category_id` = `categories`.`category_id`
+      WHERE `videos`.`category_id` = '$category_id'";
+  }
+
   function extractVideoInfo($video) {
     $obj = [
       'videoId' => $video['id'],
@@ -127,14 +135,18 @@
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
   }
 
+  function getCategoryName($conn, $id) {
+    $sql = "SELECT `categories`.*
+      FROM `categories` 
+      WHERE `category_id` = $id";
+    $result = mysqli_query($conn, $sql);
+    $category = mysqli_fetch_assoc($result);
+    return $category['categoryName'];
+  }
 
-
-  ///////////////////////////////////////////////////////////////////
-
-  // function createSearchQuery($q) {
-  //   return "SELECT `videos`.*, `channels`.*
-  //     FROM `videos` 
-  //     LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
-  //     WHERE title LIKE '%$q%' OR `description` LIKE '%$q%'";
-  // }
+  function getAllCategories($conn) {
+    $sql = "SELECT * FROM `categories`";
+    $result = mysqli_query($conn, $sql);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+  }
 ?>

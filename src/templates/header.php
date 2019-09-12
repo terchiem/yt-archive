@@ -5,7 +5,9 @@
     <input type="submit" value="Search"/>
   </form>
   <div class="browse-menu">
-    <button>Browse</button>
+    <button class="browse-btn">Browse</button>
     <button>About</button>
   </div>
 </header>
+
+<?php include 'templates/categories.php' ?>

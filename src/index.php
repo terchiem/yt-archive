@@ -11,8 +11,7 @@
 <html>
   <head>
     <title>Youtube Classic</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="style.css">
+    <?php include 'config/links.php'; ?>
   </head>
 
   <body>

@@ -20,17 +20,14 @@
   } else {
     header('Location: /yt-classic');
   }
-
   $recentVideos = getRecentVideos($conn, 10);
-  mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
 <html>
   <head>
     <title><?= htmlspecialchars($video['title'])?> &mdash; Video</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="style.css">
+    <?php include 'config/links.php'; ?>
   </head>
 
   <body>
@@ -85,3 +82,6 @@
     <?php include 'templates/footer.php' ?>
   </body>
 </html>
+
+
+<?php mysqli_close($conn); ?>

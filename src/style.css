@@ -34,7 +34,7 @@ a {
       Header
 ================== */
 header {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 0.6rem 6rem;
   display: grid;
   grid-template-columns: 200px 1fr 200px;
@@ -76,6 +76,32 @@ nav li:last-child {
 nav a:hover {
   text-decoration: underline;
   color: #222;
+}
+
+/* ================
+     Categories
+================== */
+.categories {
+  padding: 0 20px;
+  max-height: 0;
+  transition: all 0.3s ease-in;
+  overflow: hidden;
+  background-color: #fff;
+}
+.categories ul{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: 5px;
+  list-style: none;
+}
+
+.categories a:hover {
+  text-decoration: underline;
+}
+
+.categories.open {
+  padding: 10px 20px;
+  max-height: 300px;
 }
 
 /* ================
@@ -167,7 +193,7 @@ nav a:hover {
    Search Results
 ================== */
 .search-results {
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 10px 20px;
   max-width: 900px;
 }
