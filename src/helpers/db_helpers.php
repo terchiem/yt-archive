@@ -5,7 +5,7 @@
       LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
       JOIN video_tags ON videos.video_id = video_tags.video_id
       JOIN tags ON video_tags.tag_id = tags.tag_id
-      WHERE `videos`.`title` LIKE '%$q%' OR `tags`.`tagName` = '%$q%'";
+      WHERE `videos`.`title` LIKE '%$q%' OR `tags`.`tagName` = '$q'";
   }
 
   function recentQuery($limit) {
@@ -56,18 +56,19 @@
     return $obj;
   }
 
-  function addVideos($conn, $searchResults) {
+  function addVideos($conn, $searchResults, $searchTerm = null) {
     foreach ($searchResults['items'] as $item) {
-      addVideo($conn, $item);
+      addVideo($conn, $item, $searchTerm);
     }
   }
 
-  function addVideo($conn, $item) {
+  function addVideo($conn, $item, $searchTerm) {
     $video = extractVideoInfo($item);
+    $video_id = null;
 
     // check of video id is in db
     $check = mysqli_query($conn, "SELECT `video_id` FROM `videos` WHERE `videoId` LIKE '${video['videoId']}'");
-    if (mysqli_num_rows($check) == 0) {
+    if ($check && mysqli_num_rows($check) == 0) {
       $channel_id = addChannel($conn, $video['channelId'], $video['channelTitle']);
       $insert = "INSERT INTO `videos`(`videoId`, `channel_id`, `title`, `description`, `publishedAt`, category_id, duration, viewCount, likeCount, dislikeCount) 
         VALUES(
@@ -84,13 +85,21 @@
       mysqli_query($conn, $insert);
       $video_id = mysqli_insert_id($conn);
       addVideoTags($conn, $video_id, $video['tags']);
-    } 
+    } else {
+      $dbVideo = mysqli_fetch_assoc($check);
+      $video_id = $dbVideo['video_id'];
+    }
+
+    // add search term to tag list
+    if ($searchTerm) {
+      addVideoTag($conn, $video_id, strtolower($searchTerm));
+    }
   }
 
   function addChannel($conn, $channelId, $channelTitle) {
     // check of channel id is in db
     $check = mysqli_query($conn, "SELECT channel_id FROM `channels` WHERE `channelId` = '$channelId'");
-    if (mysqli_num_rows($check) == 0) {
+    if ($check && mysqli_num_rows($check) == 0) {
       $insert = "INSERT INTO channels(channelId, channelTitle) "
         ."VALUES('$channelId', '$channelTitle')";
       mysqli_query($conn, $insert);
@@ -120,7 +129,7 @@
     $check = mysqli_query($conn, "SELECT tag_id FROM `tags` WHERE `tagName` = '$tag'");
     
     // add tag to db if tag does not exist
-    if (mysqli_num_rows($check) == 0) {
+    if ($check && mysqli_num_rows($check) == 0) {
       $insert = "INSERT INTO tags(tagName) VALUES('$tag')";
       mysqli_query($conn, $insert);
       return mysqli_insert_id($conn);

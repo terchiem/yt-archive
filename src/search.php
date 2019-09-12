@@ -18,7 +18,7 @@
 
       // validate successful api call
       if(empty($searchResults['error'])) {
-        addVideos($conn, $searchResults);
+        addVideos($conn, $searchResults, $query);
         $result = mysqli_query($conn, $sql);
       } else {
         echo "Connection Error: " . $searchResults['error']['message'];
