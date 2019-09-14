@@ -28,11 +28,22 @@
     $query = mysqli_real_escape_string($conn, $_GET["category_id"]);
     $sql = selectCategoryQuery($query);
     $result = mysqli_query($conn, $sql);
+    
+    if ($result->num_rows < 20) {
+      $searchResults = searchVideosAPI($query, true);
+
+      // validate successful api call
+      if (empty($searchResults['error'])) {
+        addVideos($conn, $searchResults);
+        $result = mysqli_query($conn, $sql);
+      } else {
+        echo "Connection Error: " . $searchResults['error']['message'];
+      }
+    }
     $query = getCategoryName($conn, $query);
   } else {
     header('Location: /yt-classic');
   }
-  
     
   $videos = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -61,6 +72,5 @@
     <?php include 'templates/footer.php' ?>
   </body>
 </html>
-
 
 <?php mysqli_close($conn); ?>

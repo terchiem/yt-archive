@@ -1,6 +1,6 @@
 <?php
-  function searchVideosAPI($q) {
-    $searchUri = createSearchUri($q);
+  function searchVideosAPI($q, $category = false) {
+    $searchUri = createSearchUri($q, $category);
     $searchResponse = callAPI($searchUri);
 
     if (empty($searchResponse['error'])) {
@@ -10,7 +10,6 @@
       return $searchResponse;
     }
   }
-
 
   // Private
   function getVideoIds($responseJson) {
@@ -32,8 +31,10 @@
       ."&key=$api";
   }
 
-  function createSearchUri($q) {
+  function createSearchUri($q, $category) {
     // api parameters
+    $searchBy = $category ? "&videoCategoryId=$q" :
+      "&q=".rawurlencode($q);
     $maxResults = 50;
     $dateLimit = "2006-01-01T00%3A00%3A00Z";
     $q = rawurlencode($q);
@@ -42,11 +43,11 @@
     return "https://www.googleapis.com/youtube/v3/search?"
       ."part=snippet"
       ."&fields=items(id(videoId))"
-      ."&maxResults=$maxResults"
-      ."&order=relevance"
-      ."&publishedBefore=$dateLimit"
-      ."&q=$q"
       ."&type=video"
+      ."&order=relevance"
+      ."&maxResults=$maxResults"
+      ."&publishedBefore=$dateLimit"
+      .$searchBy
       ."&key=$api";
   }
 

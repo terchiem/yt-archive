@@ -40,7 +40,7 @@
       'description' => $video['snippet']['description'],
       'publishedAt' => $video['snippet']['publishedAt'],
       'channelTitle' => $video['snippet']['channelTitle'],
-      'tags' => $video['snippet']['tags'],
+      'tags' => isset($video['snippet']['tags']) ? $video['snippet']['tags'] : [],
       'category_id' => $video['snippet']['categoryId'],
       'duration' => $video['contentDetails']['duration'],
       'viewCount' => $video['statistics']['viewCount']
@@ -114,7 +114,9 @@
     $limit = count($tags) > 5 ? 5 : count($tags);
 
     for ($i = 0; $i < $limit; $i++) {
-      addVideoTag($conn, $video_id, strtolower($tags[$i]));
+      if (strlen($tags[$i]) > 2) {
+        addVideoTag($conn, $video_id, strtolower($tags[$i]));
+      }
     }
   }
 
@@ -134,6 +136,8 @@
       mysqli_query($conn, $insert);
       return mysqli_insert_id($conn);
     }
+
+    // add in a bool check
     $tag = mysqli_fetch_assoc($check);
     return $tag['tag_id'];
   }
