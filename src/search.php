@@ -4,24 +4,29 @@
   include 'helpers/api_helpers.php';
   include 'helpers/view_helpers.php';
 
-  $query = NULL;
+  $query = isset($_GET["q"]) ? $_GET["q"] : '';
   $result = NULL;
+  $validSearch = true;
 
   if (isset($_GET["q"])) {
-    $query = mysqli_real_escape_string($conn, $_GET["q"]);
-    $sql = createSearchQuery($query);
-    $result = mysqli_query($conn, $sql);
+    if (strlen($_GET["q"]) < 3) {
+      $validSearch = false;
+    } else {
+      $query = mysqli_real_escape_string($conn, $_GET["q"]);
+      $sql = createSearchQuery($query);
+      $result = mysqli_query($conn, $sql);
 
-    if ($result->num_rows < 20) {
-      // retrieve response JSON as array
-      $searchResults = searchVideosAPI($query);
+      if ($result->num_rows < 20) {
+        // retrieve response JSON as array
+        $searchResults = searchVideosAPI($query);
 
-      // validate successful api call
-      if(empty($searchResults['error'])) {
-        addVideos($conn, $searchResults, $query);
-        $result = mysqli_query($conn, $sql);
-      } else {
-        echo "Connection Error: " . $searchResults['error']['message'];
+        // validate successful api call
+        if(empty($searchResults['error'])) {
+          addVideos($conn, $searchResults, $query);
+          $result = mysqli_query($conn, $sql);
+        } else {
+          echo "Connection Error: " . $searchResults['error']['message'];
+        }
       }
     }
   } elseif (isset($_GET["category_id"])) {
@@ -45,9 +50,12 @@
     header('Location: /yt-classic');
   }
     
-  $videos = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-  mysqli_free_result($result);
+  if ($result) {
+    $videos = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_free_result($result);
+  } else {
+    $videos = [];
+  }
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +76,12 @@
         } ?>
       </div>
     </div>
+
+    <?php if (!$validSearch): ?>
+      <div class="error-dialog">
+        <p>Search terms must be longer than 2 characters.</p>
+      </div>
+    <?php endif ?>
 
     <?php include 'templates/footer.php' ?>
   </body>

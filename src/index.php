@@ -20,8 +20,8 @@
       <h1 class="center logo"><a href="/">Youtube Classic Video</a></h1>
   
       <form action="search.php" method="get" class="center">
-        <input type="text" placeholder="Search" name="q" />
-        <input type="submit" value="Submit" />
+        <input id="searchbar" type="text" placeholder="Search" name="q" />
+        <input id="submit-btn" type="submit" value="Submit" />
       </form>
 
       <nav>

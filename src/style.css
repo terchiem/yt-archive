@@ -30,6 +30,10 @@ a {
   vertical-align: middle;
 }
 
+.hidden {
+  display: none;
+}
+
 /* ================
       Header
 ================== */
@@ -273,8 +277,22 @@ footer a:hover {
   color: #888;
 }
 
-
-
+/* ================
+      Errors
+================== */
+.error-dialog {
+  padding: 20px;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid red;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: red;
+  text-align: center;
+  cursor: pointer;
+}
 
 @media (max-width: 1000px) {
   .details-wrapper {
