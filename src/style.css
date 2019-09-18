@@ -88,7 +88,7 @@ nav a:hover {
 .categories {
   padding: 0 20px;
   max-height: 0;
-  transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in; /* change ease*/
   overflow: hidden;
   background-color: #fff;
 }
@@ -200,6 +200,14 @@ nav a:hover {
   margin: 10px auto;
   padding: 10px 20px;
   max-width: 900px;
+}
+
+.empty-search {
+  min-height: 250px;
+  line-height: 250px;
+  color: #888;
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 /* ================

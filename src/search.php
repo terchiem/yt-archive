@@ -71,15 +71,29 @@
     <div class="container search-results">
       <h3>Search results for '<?= htmlspecialchars($query) ?>' (<?= count($videos) ?>)</h3>
       <div class="video-list">
-        <?php foreach($videos as $video) {
-          include 'templates/video-card.php';
-        } ?>
+        <?php if ($videos): ?>
+            <?php foreach($videos as $video) {
+              include 'templates/video-card.php';
+            } ?>
+        <?php else: ?>
+          <div class="empty-search">
+            <p>Could not find any results!</p>
+          </div>
+        <?php endif ?>
       </div>
     </div>
 
+
+    <div class="page-list">
+        <ul>
+        <!-- Add in pagination -->
+        </ul>
+    </div>
+
+
     <?php if (!$validSearch): ?>
       <div class="error-dialog">
-        <p>Search terms must be longer than 2 characters.</p>
+        <p>Search terms must be at least 2 characters long.</p>
       </div>
     <?php endif ?>
 

@@ -3,7 +3,7 @@ var bs = require('browser-sync').create(); // create a browser sync instance.
 
 gulp.task('browser-sync', function() {
   bs.init({
-    files: ["*/*.css", "*/*.php"],
+    files: ["*/*.css", "*/*.php", '*/*.js'],
     proxy: "localhost/yt-classic",
     port: 80
   });
