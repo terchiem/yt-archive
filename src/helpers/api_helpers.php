@@ -1,6 +1,6 @@
 <?php
-  function searchVideosAPI($q, $category = false) {
-    $searchUri = createSearchUri($q, $category);
+  function searchVideosAPI($q, $search = true) {
+    $searchUri = createSearchUri($q, $search);
     $searchResponse = callAPI($searchUri);
 
     if (empty($searchResponse['error'])) {
@@ -31,10 +31,10 @@
       ."&key=$api";
   }
 
-  function createSearchUri($q, $category) {
+  function createSearchUri($q, $search) {
     // api parameters
-    $searchBy = $category ? "&videoCategoryId=$q" :
-      "&q=".rawurlencode($q);
+    $searchBy = $search ? "&q=".rawurlencode($q) : 
+      "&videoCategoryId=$q";
     $maxResults = 50;
     $dateLimit = "2006-01-01T00%3A00%3A00Z";
     $q = rawurlencode($q);

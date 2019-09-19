@@ -5,7 +5,7 @@
 
   if (isset($_GET['id'])) {
     $id = mysqli_real_escape_string($conn, $_GET["id"]);
-    $sql = selectVideoQuery($id);
+    $sql = createVideoQuery($id);
     $result = mysqli_query($conn, $sql);
 
     if ($result->num_rows > 0) {

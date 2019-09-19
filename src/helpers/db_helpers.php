@@ -1,11 +1,21 @@
 <?php
-  function createSearchQuery($q) {
-    return "SELECT DISTINCT `videos`.*, `channels`.*
+  /* ========================
+          DB Queries
+  ========================= */
+  function createSearchQuery($query, $search, $page, $limit) {
+    $criteria = $search ? 
+      "`videos`.`title` LIKE '%$query%' OR `tags`.`tagName` = '$query'" :
+      "`videos`.`category_id` = '$query'";
+    $start = ($page - 1) * $limit;
+
+    return "SELECT DISTINCT `videos`.*, `channels`.*, `categories`.`categoryName`
       FROM `videos` 
       LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
+      LEFT JOIN `categories` ON `videos`.`category_id` = `categories`.`category_id`
       JOIN video_tags ON videos.video_id = video_tags.video_id
       JOIN tags ON video_tags.tag_id = tags.tag_id
-      WHERE `videos`.`title` LIKE '%$q%' OR `tags`.`tagName` = '$q'";
+      WHERE $criteria
+      LIMIT $start, $limit";
   }
 
   function recentQuery($limit) {
@@ -24,7 +34,7 @@
       WHERE `videoId` = '$videoId'";
   }
 
-  function selectCategoryQuery($category_id) {
+  function createCategoryQuery($category_id) {
     return "SELECT `videos`.*, `channels`.*, `categories`.`categoryName`
       FROM `videos` 
       LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
@@ -32,30 +42,10 @@
       WHERE `videos`.`category_id` = '$category_id'";
   }
 
-  function extractVideoInfo($video) {
-    $obj = [
-      'videoId' => $video['id'],
-      'channelId' => $video['snippet']['channelId'],
-      'title' => $video['snippet']['title'],
-      'description' => $video['snippet']['description'],
-      'publishedAt' => $video['snippet']['publishedAt'],
-      'channelTitle' => $video['snippet']['channelTitle'],
-      'tags' => isset($video['snippet']['tags']) ? $video['snippet']['tags'] : [],
-      'category_id' => $video['snippet']['categoryId'],
-      'duration' => $video['contentDetails']['duration'],
-      'viewCount' => $video['statistics']['viewCount']
-    ];
 
-    if (array_key_exists('likeCount', $video['statistics'])) {
-      $obj['likeCount'] = $video['statistics']['likeCount'];
-      $obj['dislikeCount'] = $video['statistics']['dislikeCount'];
-    } else {
-      $obj['likeCount'] = 0;
-      $obj['dislikeCount'] = 0;
-    }
-    return $obj;
-  }
-
+  /* ========================
+          DB Insertions
+  ========================= */
   function addVideos($conn, $searchResults, $searchTerm = null) {
     foreach ($searchResults['items'] as $item) {
       addVideo($conn, $item, $searchTerm);
@@ -142,6 +132,10 @@
     return $tag['tag_id'];
   }
 
+
+  /* ========================
+          DB Fetches
+  ========================= */
   function getRecentVideos($conn, $limit) {
     $sql = recentQuery($limit);
     $result = mysqli_query($conn, $sql);
@@ -161,5 +155,50 @@
     $sql = "SELECT * FROM `categories`";
     $result = mysqli_query($conn, $sql);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
+  }
+
+  function getNumResults($conn, $query, $search = true) {
+    if ($search) {
+      $criteria = "`videos`.`title` LIKE '%$query%' OR `tags`.`tagName` = '$query'";
+    } else {
+      $criteria = "`videos`.`category_id` = '$query'";
+    }
+    
+    $sql = "SELECT count(DISTINCT(videos.video_id)) AS total FROM videos 
+      JOIN video_tags ON videos.video_id = video_tags.video_id
+      JOIN tags ON video_tags.tag_id = tags.tag_id
+      WHERE " . $criteria;
+
+    $result = mysqli_query($conn, $sql);
+    $data = mysqli_fetch_assoc($result);
+    return $data['total'];
+  }
+
+
+  /* ========================
+            Helpers
+  ========================= */
+  function extractVideoInfo($video) {
+    $obj = [
+      'videoId' => $video['id'],
+      'channelId' => $video['snippet']['channelId'],
+      'title' => $video['snippet']['title'],
+      'description' => $video['snippet']['description'],
+      'publishedAt' => $video['snippet']['publishedAt'],
+      'channelTitle' => $video['snippet']['channelTitle'],
+      'tags' => isset($video['snippet']['tags']) ? $video['snippet']['tags'] : [],
+      'category_id' => $video['snippet']['categoryId'],
+      'duration' => $video['contentDetails']['duration'],
+      'viewCount' => $video['statistics']['viewCount']
+    ];
+
+    if (array_key_exists('likeCount', $video['statistics'])) {
+      $obj['likeCount'] = $video['statistics']['likeCount'];
+      $obj['dislikeCount'] = $video['statistics']['dislikeCount'];
+    } else {
+      $obj['likeCount'] = 0;
+      $obj['dislikeCount'] = 0;
+    }
+    return $obj;
   }
 ?>

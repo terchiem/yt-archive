@@ -202,6 +202,13 @@ nav a:hover {
   max-width: 900px;
 }
 
+.search-results-info {
+  margin-left: 10px;
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: #888;
+}
+
 .empty-search {
   min-height: 250px;
   line-height: 250px;
@@ -267,6 +274,31 @@ nav a:hover {
 .video-details-info .date {
   color: #666;
   font-size: 0.85rem;
+}
+
+/* ================
+     Page List
+================== */
+.page-list ul {
+  display: inline-block;
+  padding: 10px;
+  margin: 0 auto;
+  color: #888;
+}
+
+.page-list li {
+  display: inline-block;
+  padding: 0 2px;
+}
+
+.page-list p {
+  color: #333;
+  font-weight: 700;
+}
+
+.page-list a:hover {
+  color: #666;
+  text-decoration: underline;
 }
 
 /* ================
