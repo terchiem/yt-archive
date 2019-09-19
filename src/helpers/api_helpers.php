@@ -1,8 +1,10 @@
 <?php
-  function searchVideosAPI($q, $search = true) {
-    $searchUri = createSearchUri($q, $search);
-    $searchResponse = callAPI($searchUri);
+  function searchListAPI($q, $search = true, $token = NULL) {
+    $searchUri = createSearchUri($q, $search, $token);
+    return callAPI($searchUri);
+  }
 
+  function videoListAPI($searchResponse) {
     if (empty($searchResponse['error'])) {
       $videoUri = createVideoUri($searchResponse);
       return callAPI($videoUri);
@@ -20,6 +22,10 @@
     return join("%2C", $videoIds);
   }
 
+  function extractPageToken($responseJson) {
+    return $responseJson['nextPageToken'] ?? NULL;
+  }
+
   function createVideoUri($responseJson) {
     $videoIds = getVideoIds($responseJson);
     $api = API_KEY; 
@@ -31,7 +37,7 @@
       ."&key=$api";
   }
 
-  function createSearchUri($q, $search) {
+  function createSearchUri($q, $search, $token) {
     // api parameters
     $searchBy = $search ? "&q=".rawurlencode($q) : 
       "&videoCategoryId=$q";
@@ -39,16 +45,18 @@
     $dateLimit = "2006-01-01T00%3A00%3A00Z";
     $q = rawurlencode($q);
     $api = API_KEY;
+    $page_token = $token ? "&pageToken=$token" : "";
 
     return "https://www.googleapis.com/youtube/v3/search?"
       ."part=snippet"
-      ."&fields=items(id(videoId))"
+      ."&fields=items(id(videoId))%2CnextPageToken"
       ."&type=video"
       ."&order=relevance"
       ."&maxResults=$maxResults"
       ."&publishedBefore=$dateLimit"
       .$searchBy
-      ."&key=$api";
+      ."&key=$api"
+      .$page_token;
   }
 
   function callAPI($uri) {

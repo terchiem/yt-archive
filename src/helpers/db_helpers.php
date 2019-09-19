@@ -26,22 +26,13 @@
     LIMIT $limit";
   }
 
-  function selectVideoQuery($videoId) {
+  function createVideoQuery($videoId) {
     return "SELECT `videos`.*, `channels`.*, `categories`.`categoryName`
       FROM `videos` 
       LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
       LEFT JOIN `categories` ON `videos`.`category_id` = `categories`.`category_id`
       WHERE `videoId` = '$videoId'";
   }
-
-  function createCategoryQuery($category_id) {
-    return "SELECT `videos`.*, `channels`.*, `categories`.`categoryName`
-      FROM `videos` 
-      LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
-      LEFT JOIN `categories` ON `videos`.`category_id` = `categories`.`category_id`
-      WHERE `videos`.`category_id` = '$category_id'";
-  }
-
 
   /* ========================
           DB Insertions
@@ -132,6 +123,16 @@
     return $tag['tag_id'];
   }
 
+  function addPageToken($conn, $token) {
+    $check = mysqli_query($conn, "SELECT * FROM `page_tokens` WHERE `page_token` = '$token'");
+    
+    // add token to db if token does not exist
+    if ($check && mysqli_num_rows($check) == 0) {
+      $insert = "INSERT INTO page_tokens(page_token) VALUES('$token')";
+      mysqli_query($conn, $insert);
+    }
+  }
+
 
   /* ========================
           DB Fetches
@@ -172,6 +173,18 @@
     $result = mysqli_query($conn, $sql);
     $data = mysqli_fetch_assoc($result);
     return $data['total'];
+  }
+
+  function getPageToken($conn, $token_id) {
+    $count = mysqli_query($conn, "SELECT * FROM `page_tokens`")->num_rows;
+    if ($token_id > $count) {
+      $token_id = $count;
+    }
+    
+    $sql = "SELECT * FROM `page_tokens` WHERE `id` = $token_id";
+    $result = mysqli_query($conn, $sql);
+    $data = mysqli_fetch_assoc($result);
+    return $data['page_token'];
   }
 
 

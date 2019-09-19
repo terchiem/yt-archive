@@ -10,10 +10,7 @@
   }
 
   $validSearch = true;
-  
-
-  // determine if searching by term or category
-  $search = isset($_GET['q']) ? true : false;
+  $search = isset($_GET['q']);
 
   // query check
   $query = $search ? $_GET['q'] : $_GET['category_id'];
@@ -35,22 +32,39 @@
     "search.php?category_id=$query&page=";
   $video_index_start = ($page - 1) * $videos_per_page;
 
+  // search db for videos
   $sql = createSearchQuery($query, $search, $page, $videos_per_page);
   $result = mysqli_query($conn, $sql);
 
   // search for more videos if results are less than limit
-  // if ($result->num_rows < $videos_per_page) {
-  //   // retrieve response JSON as array
-  //   $searchResults = searchVideosAPI($query, $search);
+  if ($result->num_rows < $videos_per_page) {
+    // calculate id of page token and retrieve
+    $token_id = ceil($num_results / 40);
+    $token = $token_id ? getPageToken($conn, $token_id) : NULL;
 
-  //   // validate successful api call
-  //   if(empty($searchResults['error'])) {
-  //     addVideos($conn, $searchResults, $query);
-  //     $result = mysqli_query($conn, $sql);
-  //   } else {
-  //     echo "Connection Error: " . $searchResults['error']['message'];
-  //   }
-  // }
+    // retrieve video ids from search api call
+    $searchResults = searchListAPI($query, $search, $token);
+
+    // store page token if not in db
+    $page_token = extractPageToken($searchResults);
+    addPageToken($conn, $page_token);
+
+    // use video ids to get video info for search results
+    $videoResults = videoListAPI($searchResults);
+
+    // validate successful api call
+    if(empty($videoResults['error'])) {
+      // add and retrieve videos from db
+      addVideos($conn, $videoResults, $query);
+      $result = mysqli_query($conn, $sql);
+
+      // update numbers for videos added
+      $num_results = getNumResults($conn, $query, $search);
+      $total_pages = ceil($num_results / $videos_per_page);
+    } else {
+      echo "Connection Error: " . $videoResults['error']['message'];
+    }
+  }
 
   if (isset($_GET['category_id'])) {
     $query = getCategoryName($conn, $query);
@@ -62,62 +76,6 @@
   } else {
     $videos = [];
   }
-
-  ///////////////////////////////////////////////
-
-  // if ($search) {
-  //   if (strlen($query) < 2) {
-  //     $validSearch = false;
-  //   } else {
-  //     $query = mysqli_real_escape_string($conn, $query);
-
-  //     // get number of pages
-  //     $total_pages = ceil(getNumResults($conn, $query) / $videos_per_page);
-
-  //     // query for current page range
-  //     $sql = createSearchQuery($query); // add limit
-  //     $result = mysqli_query($conn, $sql);
-
-  //     if ($result->num_rows < 20) {
-  //       // retrieve response JSON as array
-  //       $searchResults = searchVideosAPI($query);
-
-  //       // validate successful api call
-  //       if(empty($searchResults['error'])) {
-  //         addVideos($conn, $searchResults, $query);
-  //         $result = mysqli_query($conn, $sql);
-  //       } else {
-  //         echo "Connection Error: " . $searchResults['error']['message'];
-  //       }
-  //     }
-  //   }
-  // } elseif (isset($_GET["category_id"])) {
-  //   $query = mysqli_real_escape_string($conn, $_GET["category_id"]);
-  //   $sql = createCategoryQuery($query);
-  //   $result = mysqli_query($conn, $sql);
-    
-  //   if ($result->num_rows < 20) {
-  //     $searchResults = searchVideosAPI($query, true);
-
-  //     // validate successful api call
-  //     if (empty($searchResults['error'])) {
-  //       addVideos($conn, $searchResults);
-  //       $result = mysqli_query($conn, $sql);
-  //     } else {
-  //       echo "Connection Error: " . $searchResults['error']['message'];
-  //     }
-  //   }
-  //   $query = getCategoryName($conn, $query);
-  // } else {
-  //   header('Location: /yt-classic');
-  // }
-    
-  // if ($result) {
-  //   $videos = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  //   mysqli_free_result($result);
-  // } else {
-  //   $videos = [];
-  // }
 ?>
 
 <!DOCTYPE html>
@@ -149,7 +107,6 @@
       </div>
     </div>
 
-
     <div class="page-list center">
       <ul class="container">
         <?php for ($page_num = 1; $page_num <= $total_pages; $page_num++): ?>
@@ -163,7 +120,6 @@
         <?php endfor ?>
       </ul>
     </div>
-
 
     <?php if (!$validSearch): ?>
       <div class="error-dialog">
