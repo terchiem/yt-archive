@@ -23,7 +23,7 @@
   $videos_per_page = 20;
   $num_results = getNumResults($conn, $query, $search);
   $total_pages = ceil($num_results / $videos_per_page);
-  if (!isset($_GET['page']) || !is_int($_GET['page'])) {
+  if (!isset($_GET['page']) || !is_numeric($_GET['page'])) {
     $page = 1;
   } else {
     $page = $_GET['page'] > $total_pages ? $total_pages : $_GET['page'];
@@ -107,19 +107,33 @@
       </div>
     </div>
 
-    <div class="page-list center">
-      <ul class="container">
+    <section>
+      <div class="page-list container center">
+        <?php if ($page != 1): ?>
+          <a href="<?= $page_link.'1'; ?>">«</a>
+          <a href="<?= $page_link.($page-1 < 1 ? 1 : $page-1); ?>">‹</a>
+        <?php else: ?>
+          <p class="disabled">«</p>
+          <p class="disabled">‹</p>
+        <?php endif ?>
         <?php for ($page_num = 1; $page_num <= $total_pages; $page_num++): ?>
-          <li>
-            <?php if ($page_num == $page): ?>
-              <p><?= $page_num; ?></p>
-            <?php else: ?>
-              <a href="<?= $page_link.$page_num ?>"><?= $page_num ?></a>
-            <?php endif ?>
-          </li>
+          <?php if ($page_num == $page): ?>
+            <p class="current-page"><?= $page_num ?></p>
+          <?php else: ?>
+            <a href="<?= $page_link.$page_num ?>">
+              <?= $page_num; ?>
+            </a>
+          <?php endif ?>
         <?php endfor ?>
-      </ul>
-    </div>
+        <?php if ($total_pages != $page): ?>
+          <a href="<?= $page_link.($page+1 > $total_pages ? $total_pages : $page+1); ?>">›</a>
+          <a href="<?= $page_link.$total_pages; ?>">»</a>
+        <?php else: ?>
+          <p class="disabled">›</p>
+          <p class="disabled">»</p>
+        <?php endif ?>
+      </div>
+    </section>
 
     <?php if (!$validSearch): ?>
       <div class="error-dialog">
