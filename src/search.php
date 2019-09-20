@@ -21,13 +21,13 @@
 
   // pagination variables
   $videos_per_page = 20;
-  if (!isset($_GET['page'])) {
-    $page = 1;
-  } else {
-    $page = $_GET['page'];
-  }
   $num_results = getNumResults($conn, $query, $search);
   $total_pages = ceil($num_results / $videos_per_page);
+  if (!isset($_GET['page']) || !is_int($_GET['page'])) {
+    $page = 1;
+  } else {
+    $page = $_GET['page'] > $total_pages ? $total_pages : $_GET['page'];
+  }
   $page_link = $search ? "search.php?q=$query&page=" : 
     "search.php?category_id=$query&page=";
   $video_index_start = ($page - 1) * $videos_per_page;
@@ -36,7 +36,7 @@
   $sql = createSearchQuery($query, $search, $page, $videos_per_page);
   $result = mysqli_query($conn, $sql);
 
-  // search for more videos if results are less than limit
+  // call api for more videos if results are less than limit
   if ($result->num_rows < $videos_per_page) {
     // calculate id of page token and retrieve
     $token_id = ceil($num_results / 40);
