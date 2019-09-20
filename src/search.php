@@ -37,7 +37,8 @@
   $result = mysqli_query($conn, $sql);
 
   // call api for more videos if results are less than limit
-  if ($result->num_rows < $videos_per_page) {
+  if ($result->num_rows < $videos_per_page || 
+    $video_index_start+$result->num_rows == $num_results) {
     // calculate id of page token and retrieve
     $token_id = ceil($num_results / 40);
     $token = $token_id ? getPageToken($conn, $token_id) : NULL;

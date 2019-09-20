@@ -124,6 +124,7 @@
   }
 
   function addPageToken($conn, $token) {
+    if (!$token) { return; }
     $check = mysqli_query($conn, "SELECT * FROM `page_tokens` WHERE `page_token` = '$token'");
     
     // add token to db if token does not exist
