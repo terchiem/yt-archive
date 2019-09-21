@@ -65,7 +65,6 @@
           '${video['dislikeCount']}')";
       mysqli_query($conn, $insert);
       $video_id = mysqli_insert_id($conn);
-      addVideoTags($conn, $video_id, $video['tags']);
     } else {
       $dbVideo = mysqli_fetch_assoc($check);
       $video_id = $dbVideo['video_id'];
@@ -88,17 +87,6 @@
     }
     $channel = mysqli_fetch_assoc($check);
     return $channel['channel_id'];
-  }
-
-  function addVideoTags($conn, $video_id, $tags) {
-    // set max tag limit
-    $limit = count($tags) > 5 ? 5 : count($tags);
-
-    for ($i = 0; $i < $limit; $i++) {
-      if (strlen($tags[$i]) > 2) {
-        addVideoTag($conn, $video_id, strtolower($tags[$i]));
-      }
-    }
   }
 
   function addVideoTag($conn, $video_id, $tag) {
@@ -200,7 +188,6 @@
       'description' => $video['snippet']['description'],
       'publishedAt' => $video['snippet']['publishedAt'],
       'channelTitle' => $video['snippet']['channelTitle'],
-      'tags' => isset($video['snippet']['tags']) ? $video['snippet']['tags'] : [],
       'category_id' => $video['snippet']['categoryId'],
       'duration' => $video['contentDetails']['duration'],
       'viewCount' => $video['statistics']['viewCount']

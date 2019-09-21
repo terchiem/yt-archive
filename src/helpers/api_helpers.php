@@ -32,7 +32,7 @@
 
     return "https://www.googleapis.com/youtube/v3/videos?"
       ."part=snippet%2Cstatistics%2CcontentDetails"
-      ."&fields=items(id%2Csnippet(publishedAt%2CchannelId%2Ctitle%2Cdescription%2CchannelTitle%2CcategoryId%2Ctags)%2Cstatistics(viewCount%2ClikeCount%2CdislikeCount)%2CcontentDetails(duration))"
+      ."&fields=items(id%2Csnippet(publishedAt%2CchannelId%2Ctitle%2Cdescription%2CchannelTitle%2CcategoryId)%2Cstatistics(viewCount%2ClikeCount%2CdislikeCount)%2CcontentDetails(duration))"
       ."&id=$videoIds"
       ."&key=$api";
   }
