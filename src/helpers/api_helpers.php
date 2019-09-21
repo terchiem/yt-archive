@@ -47,6 +47,17 @@
     $api = API_KEY;
     $page_token = $token ? "&pageToken=$token" : "";
 
+    echo "https://www.googleapis.com/youtube/v3/search?"
+      ."part=snippet"
+      ."&fields=items(id(videoId))%2CnextPageToken"
+      ."&type=video"
+      ."&order=relevance"
+      ."&maxResults=$maxResults"
+      ."&publishedBefore=$dateLimit"
+      .$searchBy
+      ."&key=$api"
+      .$page_token;
+
     return "https://www.googleapis.com/youtube/v3/search?"
       ."part=snippet"
       ."&fields=items(id(videoId))%2CnextPageToken"

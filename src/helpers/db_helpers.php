@@ -3,18 +3,21 @@
           DB Queries
   ========================= */
   function createSearchQuery($query, $search, $page, $limit) {
+    echo 'the query is: '.$query.'</br>';
+    echo 'the search is: '.$search.'</br>';
+    echo 'the page is: '.$page.'</br>';
     $criteria = $search ? 
-      "`videos`.`title` LIKE '%$query%' OR `tags`.`tagName` = '$query'" :
-      "`videos`.`category_id` = '$query'";
+      "JOIN video_tags ON videos.video_id = video_tags.video_id
+      JOIN tags ON video_tags.tag_id = tags.tag_id
+      WHERE `videos`.`title` LIKE '%$query%' OR `tags`.`tagName` = '$query'" :
+      "WHERE `videos`.`category_id` = $query";
     $start = ($page - 1) * $limit;
 
     return "SELECT DISTINCT `videos`.*, `channels`.*, `categories`.`categoryName`
       FROM `videos` 
       LEFT JOIN `channels` ON `videos`.`channel_id` = `channels`.`channel_id`
       LEFT JOIN `categories` ON `videos`.`category_id` = `categories`.`category_id`
-      JOIN video_tags ON videos.video_id = video_tags.video_id
-      JOIN tags ON video_tags.tag_id = tags.tag_id
-      WHERE $criteria
+      $criteria
       LIMIT $start, $limit";
   }
 
@@ -71,7 +74,7 @@
     }
 
     // add search term to tag list
-    if ($searchTerm) {
+    if ($searchTerm && !is_numeric($searchTerm)) {
       addVideoTag($conn, $video_id, strtolower($searchTerm));
     }
   }
@@ -149,15 +152,17 @@
 
   function getNumResults($conn, $query, $search = true) {
     if ($search) {
+      $join = 
+        "JOIN video_tags ON videos.video_id = video_tags.video_id
+        JOIN tags ON video_tags.tag_id = tags.tag_id";
       $criteria = "`videos`.`title` LIKE '%$query%' OR `tags`.`tagName` = '$query'";
     } else {
+      $join = "";
       $criteria = "`videos`.`category_id` = '$query'";
     }
     
     $sql = "SELECT count(DISTINCT(videos.video_id)) AS total FROM videos 
-      JOIN video_tags ON videos.video_id = video_tags.video_id
-      JOIN tags ON video_tags.tag_id = tags.tag_id
-      WHERE " . $criteria;
+      $join WHERE " . $criteria;
 
     $result = mysqli_query($conn, $sql);
     $data = mysqli_fetch_assoc($result);
