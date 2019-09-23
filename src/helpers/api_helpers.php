@@ -56,7 +56,7 @@
       ."&publishedBefore=$dateLimit"
       .$searchBy
       ."&key=$api"
-      .$page_token;
+      .$page_token;     // debug
 
     return "https://www.googleapis.com/youtube/v3/search?"
       ."part=snippet"
