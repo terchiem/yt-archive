@@ -16,8 +16,11 @@
 
 
 <div class="video-card md">
-  <a href="details.php?id=<?= $video['videoId'] ?>">
+  <a class="video-card-thumbnail" href="details.php?id=<?= $video['videoId'] ?>">
     <img src="<?= getThumbnail($video['videoId']) ?>" alt="<?= htmlspecialchars($video['title']) ?>">
+    <div class="video-card-duration">
+      <?= formatDuration($video['duration']); ?>
+    </div>
   </a>
 
   <div class="video-card-snippet">
@@ -29,7 +32,6 @@
         <?= htmlspecialchars($video['channelTitle']) ?>
       </a> • <?= roundViews($video['viewCount']); ?> views
       • Published <?= getStringDate($video['publishedAt']) ?>
-      • Duration <?= formatDuration($video['duration']); //temp?>
       <p class="video-card-description"><?= htmlspecialchars($video['description']) ?></p>
     </div>
   </div>
