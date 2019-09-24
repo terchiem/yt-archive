@@ -1,4 +1,4 @@
-let searchbar = document.querySelector('#searchbar');
+let searchbar = document.querySelector('#search-text');
 if (!searchbar.value) {
   document.querySelector('#submit-btn').disabled = true;
 } 
@@ -13,7 +13,7 @@ $(document).ready(() => {
     $('.error-dialog').addClass('hidden');
   })
 
-  $('#searchbar').on('input', function() {
+  $('#search-text').on('input', function() {
     if (this.value.length < 2) {
       $('#submit-btn').prop('disabled',true);
     } else {

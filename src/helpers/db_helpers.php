@@ -3,9 +3,6 @@
           DB Queries
   ========================= */
   function createSearchQuery($query, $search, $page, $limit) {
-    echo 'the query is: '.$query.'</br>';   // debug
-    echo 'the search is: '.$search.'</br>';   // debug
-    echo 'the page is: '.$page.'</br>';   // debug
     $criteria = $search ? 
       "JOIN video_tags ON videos.video_id = video_tags.video_id
       JOIN tags ON video_tags.tag_id = tags.tag_id
@@ -49,10 +46,6 @@
   function addVideo($conn, $item, $searchTerm) {
     $video = extractVideoInfo($conn, $item);
     $video_id = null;
-
-    // echo '<pre>';
-    // print_r($video);
-    // echo '</pre>'.'</br>';    // debug
 
     // check of video id is in db
     $check = mysqli_query($conn, "SELECT `video_id` FROM `videos` WHERE `videoId` LIKE '${video['videoId']}'");
