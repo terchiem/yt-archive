@@ -178,6 +178,11 @@
     return $data['page_token'];
   }
 
+  function checkCategory($conn, $id) {
+    $check = mysqli_query($conn, "SELECT `category_id` FROM `categories` WHERE `category_id` = $id");
+    return $check && mysqli_num_rows($check) > 0 ? true : false;
+  }
+
 
   /* ========================
             Helpers

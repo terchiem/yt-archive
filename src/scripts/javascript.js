@@ -1,5 +1,5 @@
 let searchbar = document.querySelector('#search-text');
-if (!searchbar.value) {
+if (searchbar.value.length < 2) {
   document.querySelector('#submit-btn').disabled = true;
 } 
 
