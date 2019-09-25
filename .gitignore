@@ -1,4 +1,5 @@
 node_modules
+ps_files
 vendor
 **/secret.php
 test.php

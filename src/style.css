@@ -34,12 +34,18 @@ a {
   display: none;
 }
 
+:root {
+  --main-color: #33d3b8;
+  --main-color-light: #a8eee2;
+  --main-color-dark: #2bb19a;
+}
+
 /* ================
       Header
 ================== */
 header {
   margin-bottom: 10px;
-  padding: 0.6rem 2rem;
+  padding: 1rem 2rem;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-gap: 1rem 2rem;
@@ -48,6 +54,13 @@ header {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
+.logo {
+  width: 100%;
+}
+
+.logo span {
+  color: var(--main-color);
+}
 
 .searchbar {
   display: grid;
@@ -69,7 +82,13 @@ header {
   border-bottom-right-radius: 20px;
   cursor: pointer;
   background-color: #fff;
+  color: var(--main-color);
   border-left: none;
+}
+
+#submit-btn:hover {
+  background-color: var(--main-color);
+  color: #fff;
 }
 
 #submit-btn:disabled {
@@ -84,27 +103,20 @@ header {
   grid-gap: 1rem;
 }
 
-/* ================
-        Nav
-================== */
-nav ul {
-  list-style: none;
-  color: #666;
+.browse-menu button {
+  padding: 4px 8px;
+  background-color: #fff;
+  border: 1px solid var(--main-color);
+  border-radius: 2px;
 }
 
-nav li {
-  padding: 0 10px;
-  display: inline-block;
-  border-right: 1px solid #888;
+.browse-menu button:hover {
+  background-color: var(--main-color);
+  color: #fff;
 }
 
-nav li:last-child {
-  border: none;
-}
-
-nav a:hover {
-  text-decoration: underline;
-  color: #222;
+.browse-menu button:active {
+  background-color: var(--main-color-dark);
 }
 
 /* ================
@@ -125,6 +137,7 @@ nav a:hover {
 }
 
 .categories a:hover {
+  color: var(--main-color-dark);
   text-decoration: underline;
 }
 
@@ -148,9 +161,6 @@ nav a:hover {
 }
 .hero form {
   margin: 20px 0;
-}
-.hero [type='text'] {
-  width: 33%;
 }
 
 .container {
@@ -180,7 +190,9 @@ nav a:hover {
 }
 
 .video-card img {
-  width: 100%;
+  max-width: 100%;
+  display: block;
+  height: auto;
 }
 
 .video-card h3 {
@@ -200,9 +212,10 @@ nav a:hover {
 .video-card-description {
   margin-top: 8px;
 }
-
 .video-card-thumbnail {
   position: relative;
+  max-height: 140px;
+  min-height: 68px;
 }
 
 .video-card-duration {
@@ -219,9 +232,11 @@ nav a:hover {
 }
 
 .md {
+  max-height: 160px;
   padding: 10px 0;
-  grid-template-columns: 246px 1fr;
+  grid-template-columns: minmax(120px, 1fr) 3fr;
   grid-gap: 16px;
+  overflow: hidden;
 }
 
 .sm {
@@ -270,15 +285,21 @@ nav a:hover {
 }
 
 .video-player {
+  position: relative;
   margin-bottom: 10px;
   background: #000;
   width: 100%;
-  min-height: 360px;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
 }
 
 .video-player iframe {
-  display: block;
-  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .video-details {
@@ -309,13 +330,51 @@ nav a:hover {
   font-weight: 700;
 }
 
+.video-details-info a:hover {
+  color: var(--main-color-dark);
+}
+
 .video-details-info .description {
   padding-top: 10px;
+  padding-bottom: 40px;
 }
 
 .video-details-info .date {
   color: #666;
   font-size: 0.85rem;
+}
+
+.likes-details {
+  margin: 8px;
+  width: 180px;
+  float: right;
+}
+
+.likes-details ul {
+  margin: 6px 4px;
+  position: relative;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.likes-details li {
+  position: absolute;
+  display: inline-block;
+}
+
+.likes-details li:last-child {
+  right: 0;
+}
+
+#likes-bar {
+  height: 5px;
+  width: 100%;
+  background-color: #ccc;
+}
+
+#likes-ratio {
+  background-color: var(--main-color);
+  height: 100%;
 }
 
 /* ================
@@ -335,11 +394,11 @@ nav a:hover {
 }
 
 .page-list a:hover {
-  background-color: #eee;
+  background-color: var(--main-color-light);
 }
 
 .current-page {
-  color: #555;
+  color: var(--main-color-dark);
   font-weight: 700;
 }
 
@@ -369,7 +428,7 @@ footer {
 }
 
 footer a:hover {
-  color: #888;
+  color: var(--main-color-dark);
 }
 
 /* ================
@@ -390,6 +449,11 @@ footer a:hover {
 }
 
 @media (max-width: 1000px) {
+  .logo {
+    text-align: left;
+    padding: 2px 8px;
+  }
+
   .details-wrapper {
     grid-template-columns: 1fr;
   }
@@ -404,5 +468,10 @@ footer a:hover {
   header > * {
     display: flex;
     justify-content: center;
+  }
+
+  .search-results {
+    padding: 5px 10px;
+    max-width: 600px;
   }
 }

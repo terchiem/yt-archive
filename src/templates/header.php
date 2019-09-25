@@ -1,5 +1,7 @@
 <header>
-  <h2><a href="/">YT Archive</a></h2>
+  <a href="/">
+    <img class="logo" src="assets/logo.png" alt="YT Archive">
+  </a>
   <form action="search.php" method="get" class="searchbar">
     <input 
       id="search-text"
@@ -11,8 +13,8 @@
     <button id="submit-btn" type="submit"><i class="fa fa-search"></i></button>
   </form>
   <div class="browse-menu">
-    <button class="browse-btn">Browse</button>
-    <button>About</button>
+    <button id="browse-btn">Browse</button>
+    <button id="about-btn">About</button>
   </div>
 </header>
 

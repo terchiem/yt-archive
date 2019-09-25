@@ -16,10 +16,12 @@
 
 
 <div class="video-card md">
-  <a class="video-card-thumbnail" href="details.php?id=<?= $video['videoId'] ?>">
-    <img src="<?= getThumbnail($video['videoId']) ?>" alt="<?= htmlspecialchars($video['title']) ?>">
-    <div class="video-card-duration">
-      <?= formatDuration($video['duration']); ?>
+  <a href="details.php?id=<?= $video['videoId'] ?>">
+    <div class="video-card-thumbnail">
+      <img src="<?= getThumbnail($video['videoId']) ?>" alt="<?= htmlspecialchars($video['title']) ?>">
+      <div class="video-card-duration">
+        <?= formatDuration($video['duration']); ?>
+      </div>
     </div>
   </a>
 

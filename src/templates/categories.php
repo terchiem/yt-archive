@@ -2,7 +2,7 @@
   $categories = getAllCategories($conn);
 ?>
 
-<div class="categories">
+<div class="categories container">
   <ul>
     <?php foreach ($categories as $category): ?>
       <li>

@@ -3,9 +3,23 @@ if (!searchbar.value) {
   document.querySelector('#submit-btn').disabled = true;
 } 
 
+let likesBar = document.querySelector('#likes-ratio');
+if (likesBar) {
+  likesBar.style.width = likesRatio();
+}
+
+function likesRatio() {
+  let likes = parseInt($('.likes').text().replace(',', ''));
+  let dislikes = parseInt($('.dislikes').text().replace(',', '')); 
+  let ratio = (likes / (likes + dislikes)) * 100;
+  return ratio.toFixed(1) + '%';
+}
+
+/* =================================== */
+
 $(document).ready(() => {
 
-  $('.browse-btn').on('click', () => {
+  $('#browse-btn').on('click', () => {
     $('.categories').toggleClass('open');
   })
 
@@ -21,3 +35,4 @@ $(document).ready(() => {
     }
   })
 })
+

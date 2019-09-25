@@ -4,33 +4,34 @@
   include 'helpers/view_helpers.php';
 
   $recentVideos = getRecentVideos($conn, 20);
-  mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Youtube Classic</title>
+    <title>YT Archive</title>
     <?php include 'config/links.php'; ?>
   </head>
 
   <body>
 
     <div class="hero">
-      <h1 class="center logo"><a href="/">Youtube Classic Video</a></h1>
+      <a href="/">
+        <img class="logo" src="assets/logo.png" alt="YT Archive">
+      </a>
   
-      <form action="search.php" method="get" class="center">
-        <input id="searchbar" type="text" placeholder="Search" name="q" />
-        <input id="submit-btn" type="submit" value="Submit" />
+      <form action="search.php" method="get" class="searchbar center">
+        <input id="search-text" type="text" placeholder="Search" name="q" />
+        <button id="submit-btn" type="submit"><i class="fa fa-search"></i></button>
       </form>
 
-      <nav>
-        <ul>
-          <li><a href="#">Browse</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
-      </nav>
+      <div class="browse-menu">
+        <button id="browse-btn">Browse</button>
+        <button id="about-btn">About</button>
+      </div>
     </div>
+    
+    <?php include 'templates/categories.php' ?>
 
     <div class="container search-results">
       <h3>Recently searched videos</h3>
@@ -44,3 +45,5 @@
     <?php include 'templates/footer.php' ?>
   </body>
 </html>
+
+<?php mysqli_close($conn); ?>

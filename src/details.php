@@ -47,14 +47,23 @@
     
         <div class="container video-details">
           <div class="video-details-header">
-            <h2><?= $video['title'] ?></h2>
-            <p><?= number_format($video['viewCount'], 0, 0, ',') ?> views</p>
-            <div class="likes">
+            <div class="likes-details">
+              <div id="likes-bar">
+                <div id="likes-ratio"></div>
+              </div>
               <ul>
-                <li>Likes: <?= $video['likeCount'] ?></li>
-                <li>Dislikes: <?= $video['dislikeCount'] ?></li>
+                <li class="likes">
+                  <i class="fa fa-thumbs-up"></i>
+                  <?= number_format($video['likeCount'], 0, 0, ',') ?>
+                </li>
+                <li class="dislikes">
+                  <i class="fa fa-thumbs-down"></i>
+                  <?= number_format($video['dislikeCount'], 0, 0, ',') ?>
+                </li>
               </ul>
             </div>
+            <h2><?= $video['title'] ?></h2>
+            <p><?= number_format($video['viewCount'], 0, 0, ',') ?> views</p>
           </div>
           <div class="video-details-info">
             <div class="channel-info">
