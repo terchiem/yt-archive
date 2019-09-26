@@ -1,5 +1,5 @@
 <?php
-  $production = false;
+  $production = true;
 
   if ($production) {
     define('API_KEY', getenv('API_KEY'));
