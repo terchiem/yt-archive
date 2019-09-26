@@ -134,11 +134,22 @@ header {
   overflow: hidden;
   background-color: #fff;
 }
-.categories ul{
+.categories ul {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-row-gap: 5px;
   list-style: none;
+}
+
+.categories li {
+  padding: 3px 12px;
+  border-right: 1px solid #ccc;
+  margin-right: 12px;
+}
+
+.categories li:nth-child(4),
+.categories li:nth-child(8),
+.categories li:nth-child(12) {
+  border-right: none;
 }
 
 .categories a:hover {
@@ -351,7 +362,7 @@ header {
 
 .likes-details {
   margin: 8px;
-  width: 180px;
+  width: 160px;
   float: right;
 }
 
