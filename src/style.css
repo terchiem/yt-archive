@@ -121,6 +121,7 @@ header {
 
 .browse-menu button.active {
   background-color: var(--main-color);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 /* ================
@@ -463,6 +464,7 @@ footer a:hover {
   padding: 20px;
   max-height: 30rem;
   box-shadow: 0 0 0 16px #2bb19bd0;
+  overflow-y: auto;
 }
 
 #close-about-btn {
