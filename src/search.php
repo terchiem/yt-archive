@@ -22,7 +22,7 @@
       $videos = [];
     }
   } else {
-    header('Location: /yt-classic');
+    header('Location: /');
   }
 
   // query check

@@ -222,7 +222,7 @@ header {
 }
 
 .video-card-info a:hover {
-  color: #333;
+  color: var(--main-color-dark);
 }
 
 .video-card-description {
@@ -416,6 +416,7 @@ header {
 .current-page {
   color: var(--main-color-dark);
   font-weight: 700;
+  border-bottom: 4px solid var(--main-color);
 }
 
 .page-list .disabled {
