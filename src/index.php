@@ -31,7 +31,10 @@
       </div>
     </div>
     
-    <?php include 'templates/categories.php' ?>
+    <?php 
+      include 'templates/categories.php';
+      include 'templates/about.php'; 
+    ?>
 
     <div class="container search-results">
       <h3>Recently searched videos</h3>

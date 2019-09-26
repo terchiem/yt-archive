@@ -116,7 +116,11 @@ header {
 }
 
 .browse-menu button:active {
-  background-color: var(--main-color-dark);
+  background-color: var(--main-color-dark) !important;
+}
+
+.browse-menu button.active {
+  background-color: var(--main-color);
 }
 
 /* ================
@@ -125,7 +129,7 @@ header {
 .categories {
   padding: 0 20px;
   max-height: 0;
-  transition: all 0.3s ease-in; /* change ease*/
+  transition: all 0.3s ease-in-out; /* change ease*/
   overflow: hidden;
   background-color: #fff;
 }
@@ -414,7 +418,6 @@ section {
   transform: translateX(-50%);
 }
 
-
 /* ================
       Footer
 ================== */
@@ -429,6 +432,63 @@ footer {
 
 footer a:hover {
   color: var(--main-color-dark);
+}
+
+/* ================
+      About
+================== */
+.about {
+  position: absolute;
+  top: 6rem;
+  margin: 0 40px;
+  padding: 0 20px;
+  max-height: 0;
+  background-color: #fff;
+  box-shadow: 0 0 0 0 #2bb19b00;
+  border-radius: 2px;
+  overflow: hidden;
+  z-index: 3;
+  transition: all 0.3s ease-in-out;
+}
+
+.about h2 {
+  padding-bottom: 0.5rem;
+}
+
+.about p {
+  padding-bottom: 1rem;
+}
+
+.about.open {
+  padding: 20px;
+  max-height: 30rem;
+  box-shadow: 0 0 0 16px #2bb19bd0;
+}
+
+#close-about-btn {
+  margin: -8px;
+  float: right;
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+#close-about-btn:hover {
+  color: var(--main-color-dark);
+}
+
+.credit {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.about a {
+  color: var(--main-color-dark);
+}
+
+.about a:hover {
+  color: var(--main-color);
 }
 
 /* ================

@@ -20,7 +20,23 @@ function likesRatio() {
 $(document).ready(() => {
 
   $('#browse-btn').on('click', () => {
+    $('#browse-btn').toggleClass('active');
     $('.categories').toggleClass('open');
+  })
+
+  $('#about-btn').on('click', () => {
+    $('#about-btn').toggleClass('active');
+    $('.about').toggleClass('open');
+  })
+
+  $('#close-about-btn').on('click', () => {
+    $('#about-btn').removeClass('active');
+    $('.about').removeClass('open');
+  })
+
+  $('.about').on('click', () => {
+    $('#about-btn').removeClass('active');
+    $('.about').removeClass('open');
   })
 
   $('.error-dialog').on('click', () => {

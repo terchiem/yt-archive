@@ -18,4 +18,7 @@
   </div>
 </header>
 
-<?php include 'templates/categories.php' ?>
+<?php 
+  include 'templates/categories.php';
+  include 'templates/about.php'; 
+?>
